@@ -1,6 +1,6 @@
 "use client"
 import axios from "axios"
-import Landingpage from "../components/landingpage";
+import Landingpage from "../../components/landingpage";
 const backend_url = process.env.NEXT_PUBLIC_BACKEND_URL;
 // const backend_url = process.env.NEXT_PUBLIC_BACKEND_URL;
 const Home = () =>{

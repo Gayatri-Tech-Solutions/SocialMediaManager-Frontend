@@ -1,4 +1,20 @@
+"use client"
+import { isLoggedIn } from "@/helper/utils";
+import { useEffect, useState } from "react";
 const SettingsPage = () => {
+    const [loggedIn,setLoggedIn] = useState(false)
+    const [appsCount,setAppsCount] = useState(false)
+  
+    useEffect(()=>{
+      console.log("in analytics page useeffect")
+      setAppsCount(localStorage.getItem("socialMediaAppsTokensCount"))
+      setLoggedIn(localStorage.getItem("loggedIn"))
+      isLoggedIn
+    },[])
+  
+  
+   
+  
   return (
     <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
       <h2 className="text-2xl font-bold mb-6">Settings</h2>

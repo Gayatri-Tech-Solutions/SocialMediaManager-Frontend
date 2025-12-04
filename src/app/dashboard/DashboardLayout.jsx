@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   LayoutDashboard,
   Send,
@@ -17,11 +16,31 @@ import {
   Search,
   Link as LinkIcon
 } from "lucide-react";
+
 import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import Loader from "../../components/loader";
+import { appCountBasedNavigation, isLoggedIn } from "@/helper/utils";
 
 const DashboardLayout = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const router = useRouter();
+  const [loggedIn, setLoggedIn] = useState(null);
+  const [appsCount, setAppsCount] = useState(null);
+  const [showDashboard, setShowDashboard] = useState(false);
+
+ 
+ useEffect(() => {
+    setShowDashboard(false)
+    isLoggedIn
+    
+    appCountBasedNavigation
+    setShowDashboard(true)
+  }, []);
+
+  
+
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const pathname = usePathname();
 
   const navigation = [
@@ -43,9 +62,17 @@ const DashboardLayout = ({ children }) => {
            "dashboard";
   };
 
+  const logout = () =>{
+    console.log("i am in logout")
+    localStorage.clear()
+    router.push("/home")
+  }
+
   const activeTab = getActiveTab();
 
   return (
+    <>
+    {showDashboard?
     <div className="flex h-screen bg-gray-900 text-white">
       {/* Sidebar */}
       <div className={`${sidebarOpen ? "w-64" : "w-20"} bg-gray-800 transition-all duration-300 flex flex-col`}>
@@ -101,7 +128,7 @@ const DashboardLayout = ({ children }) => {
           ))}
           
           {/* Logout */}
-          <button className="w-full flex items-center gap-3 p-3 rounded-lg text-red-400 hover:bg-red-400 hover:text-white transition">
+          <button onClick={logout} className="w-full flex items-center gap-3 p-3 rounded-lg text-red-400 hover:bg-red-400 hover:text-white transition">
             <LogOut className="w-5 h-5" />
             {sidebarOpen && <span>Logout</span>}
           </button>
@@ -160,6 +187,10 @@ const DashboardLayout = ({ children }) => {
         </main>
       </div>
     </div>
+    :
+    <Loader/>
+    }
+    </>
   );
 };
 
